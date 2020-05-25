@@ -1,9 +1,6 @@
 const express = require('express');
 const app = express();
 
-const cookieParser = require('cookie-parser');
-app.use(cookieParser());
-
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -24,7 +21,7 @@ const port = process.env.PORT || 3000;
 
 app.use((request, response, next) => {
   if (!process.env.TOKEN_KEY) {
-    return res.status(500).json({ message: 'Token key not found' });
+    return res.status(500).json({ status: 'ERROR', message: 'Token key not found' });
   }
   response.header('Access-Control-Allow-Origin', '*');
   response.header('Access-Control-Allow-Methods', 'GET, PUT, PATCH, POST, DELETE');
