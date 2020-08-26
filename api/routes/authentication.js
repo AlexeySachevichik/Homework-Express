@@ -10,13 +10,13 @@ module.exports = function(app, db) {
 
       if (head && head.exp && head.exp < new Date().getTime()) {
         return response.status(200).json({ status: 'ERROR', message: 'The token has an expired date'});
-        
+
       } else if (head && head.iss && head.iss != request.headers.fingerprint) {
         return response.status(200).json({ status: 'ERROR', message: 'Invalid user fingerprint is used'});
 
       } else if (head) {
         let signature = services.generateSignature(tokenParts[0], tokenParts[1]);
-  
+
         if (signature && signature === tokenParts[2]) {
           request.user = services.parseBase64(tokenParts[1]);
         }
